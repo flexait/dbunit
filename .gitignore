@@ -21,3 +21,6 @@ hs_err_pid*
 **/h2-drop.sql
 simple-cms.iml
 */**/.gitignore
+
+*.releaseBackup
+release.properties
