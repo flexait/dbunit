@@ -7,6 +7,12 @@
 	<packaging>pom</packaging>
 	<name>dbunit-parent</name>
 	<url>https://github.com/dtelaroli/vraptor-dbunit</url>
+	
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
