@@ -22,5 +22,6 @@ hs_err_pid*
 simple-cms.iml
 */**/.gitignore
 
-*.releaseBackup
-release.properties
+**/pom.xml.versionsBackup
+**/*.releaseBackup
+**/release.properties

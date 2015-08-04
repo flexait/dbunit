@@ -3,14 +3,13 @@ package br.com.flexait.dbunit.api;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import models.MyModel;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.avaje.ebean.Ebean;
 
-import br.com.flexait.dbunit.api.DbUnit;
+import models.MyModel;
 
 public class DbUnitTest {
 
@@ -40,6 +39,13 @@ public class DbUnitTest {
 		Ebean.endTransaction();
 		
 		assertThat(Ebean.find(MyModel.class, 1L), nullValue());
+	}
+	
+	@Test
+	public void shouldConfigPrimaryKey() {
+		Ebean.currentTransaction();
+		db.configPKs("column");
+		Ebean.commitTransaction();
 	}
 
 }

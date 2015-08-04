@@ -11,9 +11,11 @@ import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.Column;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.datatype.DefaultDataTypeFactory;
+import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.h2.H2DataTypeFactory;
 import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
@@ -29,6 +31,7 @@ public class DbUnit {
 	private final Connection conn;
 	private List<IDatabaseConnection> connections = new ArrayList<>();
 	private List<IDataSet> dataSets = new ArrayList<>();
+	private List<String> pkList = new ArrayList<>();
 
 	public DbUnit(Connection conn) {
 		this.conn = conn;
@@ -47,7 +50,7 @@ public class DbUnit {
 		dataSets.add(dataSet);
 		connections.add(connection);
 		
-		DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+		DatabaseOperation.REFRESH.execute(connection, dataSet);
 	}
 
 	protected IDatabaseConnection getConnection() throws DatabaseUnitException,
@@ -94,8 +97,10 @@ public class DbUnit {
 		}
 
 		if (dataTypeFactory != null) {
-			databaseConnection.getConfig().setProperty(
-					DatabaseConfig.PROPERTY_DATATYPE_FACTORY, dataTypeFactory);
+			databaseConnection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, dataTypeFactory);
+			if(!pkList.isEmpty()) {
+				databaseConnection.getConfig().setProperty(DatabaseConfig.PROPERTY_PRIMARY_KEY_FILTER, new CustomColumnFilter());
+			}
 		}
 	}
 
@@ -107,10 +112,29 @@ public class DbUnit {
 		return new FlatXmlDataSetBuilder().build(fileInputStream);
 	}
 
-	public void clean() throws DatabaseUnitException, SQLException {
+	public void clean() throws Exception {
 		for (int i = 0; i < connections.size(); i++) {
 			DatabaseOperation.DELETE.execute(connections.get(i), dataSets.get(i));
 		}
 	}
 
+	public DbUnit configPKs(final String... columns) {
+		for (String column : columns) {
+			pkList.add(column.toUpperCase());
+		}
+		
+		return this;
+	}
+	
+	class CustomColumnFilter extends DefaultColumnFilter {
+		public CustomColumnFilter() {
+			pkList.add("ID");
+		}
+		
+		@Override
+		public boolean accept(String tableName, Column column) {
+			return pkList.contains(column.getColumnName().toUpperCase());
+		}
+	};
+	
 }
