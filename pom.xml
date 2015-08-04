@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.flexait</groupId>
 	<artifactId>dbunit-parent</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>dbunit-parent</name>
 	<url>https://github.com/dtelaroli/vraptor-dbunit</url>
@@ -71,7 +71,7 @@
 		<connection>scm:git:https://github.com/flexait/dbunit.git</connection>
 		<developerConnection>scm:git:git@github.com:flexait/dbunit.git</developerConnection>
 		<url>git@github.com:flexait/dbunit</url>
-		<tag>0.1.0</tag>
+		<tag>0.0.1</tag>
 	</scm>
 
 	<developers>
