@@ -26,6 +26,11 @@ public class DbUnitHibernate extends DbUnit {
 	public DbUnitHibernate() {
 		super(conn);
 	}
+	
+	@Override
+	public DbUnitHibernate init(Class<?>... types) throws Exception {
+		return (DbUnitHibernate) super.init(types);
+	}
 
 	public Session getSession() {
 		return session;

@@ -37,10 +37,11 @@ public class DbUnit {
 		this.conn = conn;
 	}
 
-	public void init(Class<?>... types) throws Exception {
+	public DbUnit init(Class<?>... types) throws Exception {
 		for (Class<?> type : types) {
 			initOne(type);
 		}
+		return this;
 	}
 
 	protected <T> void initOne(Class<T> type) throws DatabaseUnitException,

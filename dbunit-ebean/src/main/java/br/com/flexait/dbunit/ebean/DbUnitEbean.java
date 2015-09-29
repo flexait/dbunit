@@ -11,9 +11,10 @@ public class DbUnitEbean extends DbUnit {
 	}
 
 	@Override @SafeVarargs
-	public final void init(Class<?>... types) throws Exception {
+	public final DbUnitEbean init(Class<?>... types) throws Exception {
 		super.init(types);
 		Ebean.commitTransaction();
+		return this;
 	}
 	
 }
